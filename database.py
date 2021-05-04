@@ -249,6 +249,7 @@ def put_user_data(email, username, password):
             'username': username,
             'email': email,
             'passwd': password,
+            'slist': [''],
         }
     )
     return True
@@ -269,8 +270,14 @@ def get_music(uid):
 def get_sub_music(subs):
     if subs is None:
         return None
+    if not subs:
+        print("NONEEE")
+        return None
     new = []
+    print("SuBS", subs)
     for s in subs:
+        if not s or s is None:
+            continue
         new.append(get_music(s))
     return new
 
@@ -292,7 +299,7 @@ def query_music(t, y, a):
 
 def subscribe(r, m):
     a = get_user_data(r, None)
-    s = a.get('slist')
+    s = list(a.get('slist'))
     if s is None:
         s = []
     if m in s:
@@ -313,7 +320,7 @@ def subscribe(r, m):
 
 def unsubscribe(r, m):
     a = get_user_data(r, None)
-    s = a.get('slist')
+    s = list(a.get('slist'))
     if s is None:
         return
     if m in s:
